@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">BookShelfApp</string>
+    <string name="cat_fiction">Fiction</string>
+    <string name="cat_non_fiction">Non-Fiction</string>
+    <string name="cat_mystery_and_detective">Mystery And Detective</string>
+    <string name="cat_science_fiction">Science Fiction</string>
+    <string name="cat_fantasy">Fantasy</string>
+    <string name="cat_romance">Romance</string>
+    <string name="cat_young_adult">Young Adult</string>
+    <string name="cat_self_help">Self-Help</string>
+    <string name="back_button">Back</string>
+    <string name="list_of_books">List of Books</string>
+    <string name="book_summary">Book Summary</string>
+</resources>
