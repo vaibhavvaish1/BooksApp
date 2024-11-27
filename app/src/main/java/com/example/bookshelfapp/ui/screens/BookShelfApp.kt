@@ -1,7 +1,9 @@
 package com.example.bookshelfapp.ui.screens
 
 import CategoryGridScreen
+import android.util.Log
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -17,21 +19,26 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.bookshelfapp.R
 import com.example.bookshelfapp.data.CategoryDataSource
+import com.example.bookshelfapp.ui.BooksViewModel
 import javax.sql.DataSource
 
 
 enum class BookShelfScreen(@StringRes val title: Int) {
     Start(title = R.string.app_name),
-    BooksList(title = R.string.list_of_books),
+    BooksListScreen(title = R.string.list_of_books),
     BookSummary(title = R.string.book_summary),
 }
 
@@ -73,6 +80,7 @@ fun BookShelfApp(
     val currentScreen = BookShelfScreen.valueOf(
         backStackEntry?.destination?.route ?: BookShelfScreen.Start.name
     )
+    val booksViewModel: BooksViewModel = viewModel(factory = BooksViewModel.Factory)
 
     Scaffold(
         topBar = {
@@ -96,7 +104,19 @@ fun BookShelfApp(
                     photos = CategoryDataSource.categories,
                     modifier = Modifier
                         .fillMaxSize(),
-                    onClick = { queryText -> navController.navigate("${BookShelfScreen.BooksList.name}/$queryText")}
+
+                    onClick = { queryText -> navController.navigate(BookShelfScreen.BooksListScreen.name)
+                        booksViewModel.updateCategory(queryText)}
+                )
+            }
+            composable(  route = BookShelfScreen.BooksListScreen.name){
+                HomeScreen(
+                    booksViewModel,
+                    booksViewModel.booksUiState,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(dimensionResource(R.dimen.padding_medium)),
+                    contentPadding = innerPadding
                 )
             }
         }
