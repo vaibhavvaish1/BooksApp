@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -72,6 +73,7 @@ fun BookShelfAppBar(
 
 @Composable
 fun BookShelfApp(
+    booksViewModel: BooksViewModel,
     navController: NavHostController = rememberNavController()
 ) {
     // Get current back stack entry
@@ -80,7 +82,6 @@ fun BookShelfApp(
     val currentScreen = BookShelfScreen.valueOf(
         backStackEntry?.destination?.route ?: BookShelfScreen.Start.name
     )
-    val booksViewModel: BooksViewModel = viewModel(factory = BooksViewModel.Factory)
 
     Scaffold(
         topBar = {
